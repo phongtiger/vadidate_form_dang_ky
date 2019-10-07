@@ -4,6 +4,9 @@ import com.codegym.cms.model.Customer;
 import com.codegym.cms.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,15 +32,29 @@ public class CustomerController {
         modelAndView.addObject("customer", new Customer());
         return modelAndView;
     }
-
     @PostMapping("/create-customer")
-    public ModelAndView saveCustomer(@ModelAttribute("customer") Customer customer){
+    public ModelAndView checkValidation(@Validated @ModelAttribute("customer") Customer customer, BindingResult bindingResult) {
+//        new Customer().validate(customer.getPhoneNumber(),bindingResult);
+//        new Customer().validate(customer.getEmail(),bindingResult);
+        if (bindingResult.hasFieldErrors()) {
+            ModelAndView modelAndView = new ModelAndView("/customer/create");
+            return modelAndView;
+        }
         customerService.save(customer);
         ModelAndView modelAndView = new ModelAndView("/customer/create");
         modelAndView.addObject("customer", new Customer());
         modelAndView.addObject("message", "New customer created successfully");
         return modelAndView;
     }
+
+//    @PostMapping("/create-customer")
+//    public ModelAndView saveCustomer(@ModelAttribute("customer") Customer customer){
+//        customerService.save(customer);
+//        ModelAndView modelAndView = new ModelAndView("/customer/create");
+//        modelAndView.addObject("customer", new Customer());
+//        modelAndView.addObject("message", "New customer created successfully");
+//        return modelAndView;
+//    }
     @GetMapping("/edit-customer/{id}")
     public ModelAndView showEditForm(@PathVariable Long id){
         Customer customer = customerService.findById(id);

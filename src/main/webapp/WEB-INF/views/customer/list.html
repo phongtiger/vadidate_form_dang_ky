@@ -11,12 +11,18 @@
     <tr>
         <th>First name</th>
         <th>Last name</th>
+        <th>Phone</th>
+        <th>Age</th>
+        <th>Your email</th>
         <th>Edit</th>
     </tr>
     <th:block th:each="customer : ${customers}">
         <tr>
             <td th:text="${customer.firstName}"></td>
             <td th:text="${customer.lastName}"></td>
+            <td th:text="${customer.phoneNumber}"></td>
+            <td th:text="${customer.age}"></td>
+            <td th:text="${customer.email}"></td>
             <td><a th:href="@{/edit-customer/__${customer.id}__ }">Edit</a></td>
         </tr>
     </th:block>
