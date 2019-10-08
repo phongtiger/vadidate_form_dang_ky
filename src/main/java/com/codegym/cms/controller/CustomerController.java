@@ -34,8 +34,6 @@ public class CustomerController {
     }
     @PostMapping("/create-customer")
     public ModelAndView checkValidation(@Validated @ModelAttribute("customer") Customer customer, BindingResult bindingResult) {
-//        new Customer().validate(customer.getPhoneNumber(),bindingResult);
-//        new Customer().validate(customer.getEmail(),bindingResult);
         if (bindingResult.hasFieldErrors()) {
             ModelAndView modelAndView = new ModelAndView("/customer/create");
             return modelAndView;
@@ -47,14 +45,6 @@ public class CustomerController {
         return modelAndView;
     }
 
-//    @PostMapping("/create-customer")
-//    public ModelAndView saveCustomer(@ModelAttribute("customer") Customer customer){
-//        customerService.save(customer);
-//        ModelAndView modelAndView = new ModelAndView("/customer/create");
-//        modelAndView.addObject("customer", new Customer());
-//        modelAndView.addObject("message", "New customer created successfully");
-//        return modelAndView;
-//    }
     @GetMapping("/edit-customer/{id}")
     public ModelAndView showEditForm(@PathVariable Long id){
         Customer customer = customerService.findById(id);
